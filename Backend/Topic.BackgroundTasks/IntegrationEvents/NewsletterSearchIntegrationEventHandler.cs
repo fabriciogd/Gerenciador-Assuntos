@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Topic.Application.UseCases.Newsletters.IntegrationEvents;
 using Topic.BackgroundTasks.Scheduler;
-using Topic.Domain.Enums;
 
 namespace Topic.BackgroundTasks.IntegrationEvents;
 
@@ -9,7 +8,7 @@ internal sealed class NewsletterSearchIntegrationEventHandler(IJobScheduler _job
 {
     public async Task Handle(NewsletterSearchIntegrationEvent notification, CancellationToken cancellationToken)
     {
-        if (notification.Status == StatusEnum.InProgress)
+        if (notification.Operation == "Add")
         {
             await _jobScheduler.AddJob(notification.Id);
             return;

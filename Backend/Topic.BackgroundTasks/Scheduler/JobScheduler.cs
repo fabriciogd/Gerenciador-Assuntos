@@ -23,7 +23,7 @@ internal sealed class JobScheduler : IJobScheduler
             .WithIdentity($"news_{newsletterId}Trigger")
             .StartNow()
             .WithSimpleSchedule(x => x
-                .WithIntervalInHours(1))
+                .WithIntervalInMinutes(1))
             .Build();
 
         await _scheduler.ScheduleJob(jobDetail, trigger);

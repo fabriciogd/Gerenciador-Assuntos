@@ -4,5 +4,5 @@ namespace Topic.Application.Contracts.News;
 
 public interface INewsService
 {
-    Task<NewsResponse> SearchAsync(string[] keywords, CancellationToken cancellationToken);
+    Task<NewsResponse> SearchAsync(string[] keywords, int count, CancellationToken cancellationToken);
 }

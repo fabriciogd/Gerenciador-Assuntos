@@ -30,6 +30,10 @@ internal class NewsletterConfiguration : IEntityTypeConfiguration<Newsletter>
 
         builder.Property(attendee => attendee.ModifiedOnUtc);
 
+        builder.Property(x => x.LinksCount)
+            .IsRequired()
+            .HasDefaultValue(0);
+
         builder.Navigation(a => a.Links).AutoInclude();
     }
 }

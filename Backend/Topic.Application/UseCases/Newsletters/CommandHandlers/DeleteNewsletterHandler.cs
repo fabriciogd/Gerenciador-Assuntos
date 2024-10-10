@@ -1,9 +1,12 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Topic.Application.Contracts.Bus;
 using Topic.Application.Contracts.Context;
 using Topic.Application.Exceptions;
 using Topic.Application.Primitives;
 using Topic.Application.UseCases.Newsletters.Commands;
+using Topic.Application.UseCases.Newsletters.IntegrationEvents;
+using Topic.Domain.Enums;
 using Topic.Domain.Repositories;
 
 namespace Topic.Application.UseCases.Newsletters.CommandHandlers;
@@ -18,7 +21,8 @@ namespace Topic.Application.UseCases.Newsletters.CommandHandlers;
 internal sealed class DeleteNewsletterHandler(
     ILogger<CreateNewsletterHandler> _logger,
     INewsletterRepository _repository,
-    IUnitOfWork _unitOfWork) : IRequestHandler<DeleteNewsetter, CommandResult<bool>>
+    IUnitOfWork _unitOfWork,
+    IEventPublisher _eventPublisher) : IRequestHandler<DeleteNewsetter, CommandResult<bool>>
 {
     public async Task<CommandResult<bool>> Handle(DeleteNewsetter request, CancellationToken cancellationToken)
     {
@@ -38,6 +42,8 @@ internal sealed class DeleteNewsletterHandler(
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("Newsletter deleted with success {@Newsletter}", newsletter);
+
+        _eventPublisher.Publish(new NewsletterSearchIntegrationEvent(newsletter.Id, "Remove"));
 
         return true;
     }

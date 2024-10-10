@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Topic.Persistence.Contexts;
@@ -11,9 +12,11 @@ using Topic.Persistence.Contexts;
 namespace Topic.Persistence.Migrations
 {
     [DbContext(typeof(TopicDbContext))]
-    partial class TopicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241010012136_NewsletterLinkCount")]
+    partial class NewsletterLinkCount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

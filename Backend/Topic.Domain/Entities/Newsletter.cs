@@ -20,6 +20,7 @@ public class Newsletter : AggregateRoot, IAuditableEntity
         Title = title;
         Status = status;
         Keywords = keywords;
+        LinksCount = 0;
 
         Validate();
     }
@@ -36,10 +37,14 @@ public class Newsletter : AggregateRoot, IAuditableEntity
 
     public virtual ICollection<NewsletterLink> Links { get; private set; } = [];
 
+    public int LinksCount { get; private set; }
+
     public static Newsletter Create(string title, StatusEnum status, string[] keywords) =>
         new(title, status, keywords);
 
     public void AddLink(NewsletterLink link) {
+        LinksCount += 1;
+
         Links.Add(link);
     }
 

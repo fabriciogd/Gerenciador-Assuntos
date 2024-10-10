@@ -43,7 +43,7 @@ internal sealed class SearchNewsletterHandler(
 
         _logger.LogInformation("Newsletter {Id} search started with success", request.Id);
 
-        _eventPublisher.Publish(new NewsletterSearchIntegrationEvent(newsletter.Id, newsletter.Status));
+        _eventPublisher.Publish(new NewsletterSearchIntegrationEvent(newsletter.Id, "Add"));
 
         return true;
     }
