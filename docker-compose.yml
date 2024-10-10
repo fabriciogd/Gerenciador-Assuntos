@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+  topic-postgres:
+    image: postgres:15.3-alpine
+    container_name: topic-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      
+  topic-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: topic-pgadmin
+    restart: always
+    depends_on:
+      - topic-postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - 8082:80
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+      
+  topic-seq:
+    image: datalust/seq:latest
+    container_name: topic-seq
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8083:80
+
+  topic-rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'topic-rabbitmq'
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+
