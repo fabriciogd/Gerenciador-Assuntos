@@ -11,7 +11,7 @@ namespace Topic.Application.UseCases.Newsletters.QueryHandlers;
 /// <summary>
 /// Handles the query to retrieve al newsletter.
 /// </summary>
-/// <param name="_logger">An instance of <see cref="ILogger{T}"/> for logging information and errors.</param>
+/// <param name="_logger">An instance of <see cref="ILogger{CreateNewsletterHandler}"/> for logging information and errors.</param>
 /// <param name="_repository">An instance of <see cref="INewsletterRepository"/> for data access.</param>
 internal sealed class GetAllNewsletterHandler(
     ILogger<CreateNewsletterHandler> _logger,

@@ -30,7 +30,7 @@ public class SyncNewsJob(IServiceProvider _serviceProvider) : IJob
             var response = await _newsService.SearchAsync(newsletter.Keywords, newsletter.LinksCount, context.CancellationToken);
 
             foreach (var article in response.Articles)
-                newsletter.AddLink(NewsletterLink.Create(article.Title.Truncate(100), article.Description.Truncate(500), article.Url));
+                newsletter.AddLink(NewsletterLink.Create(article?.Title?.Truncate(100) ?? "", article?.Description?.Truncate(500) ?? "", article.Url));
 
             _repository.Update(newsletter);
 

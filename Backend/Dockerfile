@@ -12,19 +12,24 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Topic.API/Topic.API.csproj", "Topic.API/"]
-RUN dotnet restore "./Topic.API/Topic.API.csproj"
+COPY ["Topic.API/Topic.Api.csproj", "Topic.API/"]
+COPY ["Topic.BackgroundTasks/Topic.BackgroundTasks.csproj", "Topic.BackgroundTasks/"]
+COPY ["Topic.Infraestructure/Topic.Infraestructure.csproj", "Topic.Infraestructure/"]
+COPY ["Topic.Application/Topic.Application.csproj", "Topic.Application/"]
+COPY ["Topic.Domain/Topic.Domain.csproj", "Topic.Domain/"]
+COPY ["Topic.Persistence/Topic.Persistence.csproj", "Topic.Persistence/"]
+RUN dotnet restore "./Topic.API/Topic.Api.csproj"
 COPY . .
 WORKDIR "/src/Topic.API"
-RUN dotnet build "./Topic.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Topic.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Topic.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Topic.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Topic.API.dll"]
+ENTRYPOINT ["dotnet", "Topic.Api.dll"]

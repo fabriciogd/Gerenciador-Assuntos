@@ -6,4 +6,5 @@ namespace Topic.Application.UseCases.Newsletters.Queries;
 
 /// <summary>
 /// Query to retrieve all newsletter
+/// </summary>
 public sealed record GetAllNewsletter : IRequest<QueryResult<List<NewsletterResponse>>>;

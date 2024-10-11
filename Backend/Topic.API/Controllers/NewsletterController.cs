@@ -128,4 +128,21 @@ public class NewsletterController(IMediator _mediator) : ControllerBase
         var result = await _mediator.Send(command, cancellationToken);
         return result.MatchToResult();
     }
+
+    /// <summary>
+    /// Get newsletter links
+    /// </summary>
+    /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
+    /// <returns>An IActionResult indicating the result of the operation.</returns>
+    [HttpGet("{id}/links")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerOperation("Obter links")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Links encontrados com sucesso")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Assunto não encontrado", typeof(ApiResponse))]
+    public async Task<IActionResult> ListLinks([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new GetLinksByNewsletterById(id), cancellationToken);
+        return result.MatchToResult();
+    }
 }

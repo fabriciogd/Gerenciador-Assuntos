@@ -12,7 +12,7 @@ namespace Topic.Application.UseCases.Newsletters.QueryHandlers;
 /// <summary>
 /// Handles the query to retrieve a newsletter by its unique identifier.
 /// </summary>
-/// <param name="_logger">An instance of <see cref="ILogger{T}"/> for logging information and errors.</param>
+/// <param name="_logger">An instance of <see cref="ILogger{CreateNewsletterHandler}"/> for logging information and errors.</param>
 /// <param name="_repository">An instance of <see cref="INewsletterRepository"/> for data access.</param>
 internal sealed class GetNewsletterByIdHandler(
     ILogger<CreateNewsletterHandler> _logger,
